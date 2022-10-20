@@ -4,33 +4,33 @@ namespace Program.client
     public abstract class Employee : IEmployee
     {
         public string Name { get; private set; }
-        public IRole Role => _role;
-        private IRole _role;
+        public IRole Role { get; private set; }
+
         public Seniority Seniority => _seniority ??=  Seniority.CreateNewJunior(1);
         private Seniority _seniority { get;  set; }
 
-        public Salary Salary => _salary ??= new Salary();
-        protected Salary _salary { get; set; }
+        public Salary Salary  { get; private set; }
 
         protected Employee(string name) =>
             Name = name;
         protected Employee(string name, Seniority s) =>
             Name = name;
 
-        public virtual void UpdateName( string value ) =>
+        public void UpdateName( string value ) =>
             Name = value;
         
-        public virtual void UpdateRole(IRole value) =>
-            _role = value;
-        
+        public void UpdateRole(IRole value) =>
+            Role = value;
+        public void UpdateSalary(Salary value) =>
+            Salary = value;
 
-        public virtual void UpdateSeniority(Seniority value) => 
+        public void UpdateSeniority(Seniority value) => 
             _seniority = value;
         
         internal void CalcInitialSalary()
         {
             var calcBaseSalary = new SalaryCalculator();
-            _salary = calcBaseSalary.Calculate(this);
+            Salary = calcBaseSalary.Calculate(this);
         }
     }
 

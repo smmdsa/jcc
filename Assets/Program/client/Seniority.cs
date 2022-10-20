@@ -98,6 +98,5 @@ namespace Program.client
             public float SeniorModifier { get; }= 1;
             
         }
-        
     }
 }
