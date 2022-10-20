@@ -1,30 +1,29 @@
+using System.Collections.Generic;
+using System;
+
 namespace Program.client
 {
     public class Designer : Employee, IRole
     {
-        private int _seniorityMinSalary = 800;
-
-        private float _juniorModifier = 1f;
-        private float _midModifier = 0f;
-        private float _seniorModifier = 2.5f;
-        public Designer(string name, Seniority seniority) : base(name, seniority)
+        public Designer(string name, Seniority seniority) : base(name)
         {
+            DefineRole();
+            DefineSeniorityFor(seniority);
+            CalcInitialSalary();
+        }
+
+        private void DefineRole()
+        {
+            InitializeBaseSalary();
             UpdateRole(this);
         }
-
-        public float BaseSalary()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public float CurrentSalary()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void UpdateSalary(Salary salary)
-        {
-            throw new System.NotImplementedException();
-        }
+        private void InitializeBaseSalary()=>
+            _salary = new Salary(BaseSalaryRepository.DESIGN_BASE_SALARY);
+        private void DefineSeniorityFor(Seniority seniority) => 
+            UpdateSeniority(SeniorityFactory.CreateSeniorityFor(this,seniority));
+        
+        public float BaseSalary() => Salary.BaseSalary;
+        public float CurrentSalary() => Salary.CurrentSalary;
+        public void UpdateSalary(Salary salary) => _salary = salary;
     }
 }

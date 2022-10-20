@@ -6,40 +6,34 @@ namespace Program.client
         public string Name { get; private set; }
         public IRole Role => _role;
         private IRole _role;
-        public Seniority Seniority => _seniority ??= new Junior();
+        public Seniority Seniority => _seniority ??=  Seniority.CreateNewJunior(1);
         private Seniority _seniority { get;  set; }
 
-        public Salary Salary => _salary ??= new Salary(-1);
-        public  Salary _salary { get; internal set; }
+        public Salary Salary => _salary ??= new Salary();
+        protected Salary _salary { get; set; }
 
-        protected Employee(string name, Seniority seniority)
-        {
+        protected Employee(string name) =>
             Name = name;
-            _seniority = seniority;
-        }
+        protected Employee(string name, Seniority s) =>
+            Name = name;
 
-        
-        internal void UpdateName( string value ) =>
+        public virtual void UpdateName( string value ) =>
             Name = value;
         
-        internal void UpdateRole(IRole value)
-        { 
+        public virtual void UpdateRole(IRole value) =>
             _role = value;
-        }
+        
 
-        internal void UpdateSeniority(Seniority value)
-        {
+        public virtual void UpdateSeniority(Seniority value) => 
             _seniority = value;
-        }
-        internal void CalcSalary()
+        
+        internal void CalcInitialSalary()
         {
             var calcBaseSalary = new SalaryCalculator();
             _salary = calcBaseSalary.Calculate(this);
         }
-        
     }
 
-    
 }
 // You are working for a multinational company that has 251 employees around the globe.
 // In order to speed up the process of salary increments,

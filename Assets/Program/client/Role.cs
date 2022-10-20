@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 
 namespace Program.client
 {
-    public abstract class Role : IRole
+    public abstract class Role 
     {
         private Salary _salary;
         private Seniority _seniority;

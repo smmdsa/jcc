@@ -1,4 +1,5 @@
 using System.Collections;
+using NUnit.Compatibility;
 using NUnit.Framework;
 using Program.client;
 using UnityEngine.TestTools;
@@ -18,50 +19,7 @@ public class EditModeTests
     public void TearDown()
     {
     }
-    
-    [TestCase(500)]
-    public void GetSalary_ForHumanResourceJuniorEmployee_GetWithoutAnyProblemTheCorrectSalary(float expectedSalary)
-    {
-        var employee = new HumanResource("name", new Junior());
-        Assert.AreEqual(employee.Salary.CurrentSalary, expectedSalary, $"{employee.Salary.CurrentSalary}");
-    }
-    [TestCase(1000)]
-    public void GetSalary_ForHumanResourceSemiSeniorEmployee_GetWithoutAnyProblemTheCorrectSalary(float expectedSalary)
-    {
-        var employee = new HumanResource("name", new SemiSenior());
-        Assert.AreEqual(employee.Salary.CurrentSalary, expectedSalary, $"{employee.Salary.CurrentSalary}");
-    }
-    [TestCase(1500)]
-    public void GetSalary_ForHumanResourceSeniorEmployee_GetWithoutAnyProblemTheCorrectSalary(float expectedSalary)
-    {
-        var employee = new HumanResource("name", new Senior());
-        Assert.AreEqual(employee.Salary.CurrentSalary, expectedSalary, $"{employee.Salary.CurrentSalary}");
-    }
-    [TestCase(1500)]
-    public void GetSalary_ForEngineerJuniorEmployee_GetWithoutAnyProblemTheCorrectSalary(float expectedSalary)
-    {
-        var employee = new Engineer("name", new Junior());
-        Assert.AreEqual(employee.Salary.CurrentSalary, expectedSalary, $"{employee.Salary.CurrentSalary}");
-    }
-    [TestCase(3000)]
-    public void GetSalary_ForEngineerSemiSeniorEmployee_GetWithoutAnyProblemTheCorrectSalary(float expectedSalary)
-    {
-        var employee = new Engineer("name", new SemiSenior());
-        Assert.AreEqual(employee.Salary.CurrentSalary, expectedSalary, $"{employee.Salary.CurrentSalary}");
-    }
-    [TestCase(5000)]
-    public void GetSalary_ForEngineerSeniorEmployee_GetWithoutAnyProblemTheCorrectSalary(float expectedSalary)
-    {
-        var employee = new Engineer("name", new Senior());
-        Assert.AreEqual((int)employee.Salary.CurrentSalary, expectedSalary, $"{employee.Salary.CurrentSalary}");
-    }
-    [TestCase(2000)]
-    public void GetSalary_ForArtistSeniorEmployee_GetWithoutAnyProblemTheCorrectSalary(float expectedSalary)
-    {
-        var employee = new Artist("name", new Senior());
-        Assert.AreEqual((int)employee.Salary.CurrentSalary, expectedSalary, $"{employee.Salary.CurrentSalary}");
-    }
-    
+
     // You are working for a multinational company that has 251 employees around the globe.
     // In order to speed up the process of salary increments,
     // your boss wants you to develop a program that
@@ -82,11 +40,6 @@ public class EditModeTests
     // Base Requirement
     // Objects: Employee, Role, SalaryCalculator, EmployeeRepository, SalaryRepository
     
-    [ TestCase(251,251) ]
-    public void GetEmployeesAmount_RequestTheAmountOfEmployeesRegistered_GetTheCorrectFixedAmountOfEmployees(int amountEmployees, int companyEmployees)
-    {
-        Assert.AreEqual( amountEmployees, companyEmployees );
-    }
     
     // 2. After separating all employees in different groups,
     // it has been decided that in order to speed up the salary increment process,
@@ -102,8 +55,53 @@ public class EditModeTests
     // PMs →            (10% Seniors and 5% Semi Seniors)
     // One Ceo →        (100%)
 
+    [TestCase("Senior")]
+    public void CreateANewSeniority_GetTheSeniorityExpectedS(string expectedSeniority)
+    {
+        var seniority =  Seniority.CreateNewSenior();
+        Assert.AreEqual( expectedSeniority.ToUpper(), seniority.SeniorityLabel.ToUpper(),
+            $"Current {seniority.SeniorityLabel} not match with expected seniority {expectedSeniority}");
+    }
+    [TestCase("Junior")]
+    public void CreateANewSeniority_GetTheSeniorityExpectedJr(string expectedSeniority)
+    {
+        var seniority =  Seniority.CreateNewJunior();
+        Assert.AreEqual( expectedSeniority.ToUpper(), seniority.SeniorityLabel.ToUpper(),
+            $"Current {seniority.SeniorityLabel} not match with expected seniority {expectedSeniority}");
+    }
+    [TestCase("SemiSenior")]
+    public void CreateANewSeniority_GetTheSeniorityExpectedSS(string expectedSeniority)
+    {
+        var seniority =  Seniority.CreateNewSemiSenior();
+        Assert.AreEqual( expectedSeniority.ToUpper(), seniority.SeniorityLabel.ToUpper(),
+            $"Current {seniority.SeniorityLabel} not match with expected seniority {expectedSeniority}");
+    }
+    [TestCase("SemiSenior")]
+    public void CreateNewFullSeniorityWithRol_GetCorrectArtistSemiSenior(string expectedSeniority)
+    {
+        var seniority =  Seniority.CreateNewSemiSenior();
+        var artist = new Artist("s", seniority);
+        
+        var finalSeniority =  SeniorityFactory.CreateSeniorityFor(artist, seniority);
+        
+        Assert.AreEqual( expectedSeniority.ToUpper(), finalSeniority.SeniorityLabel.ToUpper(),
+            $"Current {seniority.SeniorityLabel} not match with expected seniority {expectedSeniority}");
+    }
     
-    
+    [TestCase(1500)]
+    public void CreateANewEmployee_GetTheInitialSalaryByRolAndSeniority(float expectedSalary)
+    {
+        var employee = new HumanResource("name", Seniority.CreateNewSenior());
+        Assert.AreEqual( expectedSalary, (int)employee.Salary.CurrentSalary,
+            $"Current {employee.Seniority.SeniorityLabel} had a Current Salary of {employee.Salary.CurrentSalary}");
+    }
+    [TestCase(20000)]
+    public void CreateANewCEOEmployee_GetTheInitialSalaryByRolAndSeniority(float expectedSalary)
+    {
+        var employee = new ChiefExecutiveOfficer("name", Seniority.CreateNewSenior());
+        Assert.AreEqual( expectedSalary, (int)employee.Salary.CurrentSalary,
+            $"Current {employee.Seniority.SeniorityLabel} had a Current Salary of {employee.Salary.CurrentSalary}");
+    }
     //3. In addition, this company uses a standardized salary system, in which employees have the same salary depending on their seniority and position.
     //
     //          Expected:

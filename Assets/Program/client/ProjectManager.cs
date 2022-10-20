@@ -1,30 +1,30 @@
+using System.Collections.Generic;
+using System;
+
 namespace Program.client
 {
     public class ProjectManager : Employee, IRole
     {
-        private int _seniorityMinSalary = 2400;
-        private float _juniorModifier = 0f;
-        private float _midModifier = 1f;
-        private float _seniorModifier = 1.67f;
-        
-        public ProjectManager(string name, Seniority seniority) : base(name, seniority)
+        public ProjectManager(string name, Seniority seniority) : base(name)
         {
+            DefineRole();
+            DefineSeniorityFor(seniority);
+            CalcInitialSalary();
+        }
+
+        private void DefineRole()
+        {
+            InitializeBaseSalary();
             UpdateRole(this);
         }
+        private void InitializeBaseSalary()=>
+            _salary = new Salary(BaseSalaryRepository.PM_BASE_SALARY);
+        private void DefineSeniorityFor(Seniority seniority) => 
+            UpdateSeniority(SeniorityFactory.CreateSeniorityFor(this,seniority));
+        
+        public float BaseSalary() => Salary.BaseSalary;
+        public float CurrentSalary() => Salary.CurrentSalary;
+        public void UpdateSalary(Salary salary) => _salary = salary;
 
-        public float BaseSalary()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public float CurrentSalary()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void UpdateSalary(Salary salary)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
