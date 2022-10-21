@@ -15,7 +15,6 @@ namespace Program.client
         {
             _currentSalary = newSalary;
             _baseSalary = newSalary;
-
         }
         public Salary()
         {

@@ -11,12 +11,4 @@ namespace Program.client
             return new Salary(employee.Salary.BaseSalary, salary );;
         }
     }
-    public class SalaryIncrementCalculator : ISalaryCalculator
-    {
-        public Salary Calculate(Employee employee)
-        {
-            return null;
-        }
-    }
-    
 }

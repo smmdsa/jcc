@@ -71,7 +71,7 @@ namespace Program.client
         {
             public float JuniorModifier => 0; 
             public float SemiSeniorModifier => BaseSalaryMultipliersRepository.X_1UNIT;
-            public float SeniorModifier => BaseSalaryMultipliersRepository.X_SPECIAL_FIBBO_TIMES_2UNITS;
+            public float SeniorModifier => BaseSalaryMultipliersRepository.X_SPECIAL_FIBBO;
         }
         public class HumanResourceSeniorityModifier : IRoleModifier
         {
@@ -83,7 +83,7 @@ namespace Program.client
         {
             public float JuniorModifier=> BaseSalaryMultipliersRepository.X_1UNIT;
             public float SemiSeniorModifier => 0; 
-            public float SeniorModifier=> BaseSalaryMultipliersRepository.X_SPECIAL_FIBBO_TIMES_2UNITS;
+            public float SeniorModifier=> BaseSalaryMultipliersRepository.X_SPECIAL_TWO_HIGH_AVERAGE;
         }
         public class ProjectManagerSeniorityModifier : IRoleModifier
         {

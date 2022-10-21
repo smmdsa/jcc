@@ -16,5 +16,6 @@ namespace Program.client
         public static readonly float X_3UNITS = 3;
         public static readonly float X_SPECIAL_FIBBO = (X_2UNITS + X_3UNITS) / X_3UNITS;
         public static readonly float X_SPECIAL_FIBBO_TIMES_2UNITS = X_2UNITS * X_SPECIAL_FIBBO;
+        public static readonly float X_SPECIAL_TWO_HIGH_AVERAGE = (X_2UNITS + X_3UNITS ) / X_2UNITS;
     }
 }
