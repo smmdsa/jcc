@@ -1,5 +1,5 @@
 {
-    "name": "EditModeTests",
+    "name": "SalaryIncrementByRoleAndSeniority",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
