@@ -2,6 +2,7 @@ namespace Program.client
 {
     public class BaseSalaryRepository 
     {
+        public static readonly float NO_ROL = 0F;
         public static readonly float HR_BASE_SALARY = 500F;
         public static readonly float ENGINEER_BASE_SALARY = 1500F;
         public static readonly float ARTIST_BASE_SALARY = 1200F;
