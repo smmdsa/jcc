@@ -8,7 +8,7 @@ namespace Program.client
         // get the employee registry 
         List<Employee> GetAll();
         //TE : Artist, PM, Engineer, etc
-        List<Employee> GetAll<T>(T em);
+        List<Employee> GetAll<T>(T _);
         
         //TE : Artist, PM, Engineer, etc
         List<Employee> GetAllEmployeeBySeniority<TE, TS>(TE em, TS seniority);

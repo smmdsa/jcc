@@ -12,10 +12,10 @@ namespace Program.client
         
         public List<Employee> GetAll()=>Employees;
         
-        public List<Employee> GetAll<T>( T  em)
+        public List<Employee> GetAll<T>( T em ) 
         {
             var rOutput = Employees.FindAll(e => 
-                    e.GetType() == typeof( T )
+                    e.GetType() == typeof(T)
                 );
             return rOutput;
         }
@@ -28,141 +28,88 @@ namespace Program.client
             return rOutput;
         }
 
-        private List<Employee> _getEmployees()
-        {
-            var output = _CreateFakeEmployees();
-            return output;
-        }
+        private List<Employee> _getEmployees() =>
+            _CreateFakeEmployees();
 
-        private static List<Employee> _CreateFakeEmployees()
+        private List<Employee> _CreateFakeEmployees()
         {
             var employees = new List<Employee>();
-            _generateFakeEmployee(employees, 251);
             // 1 Ceo 
-            var ceo = employees.First();
-            ceo.UpdateRole(new ChiefExecutiveOfficer("CEO", Seniority.CreateNewSemiSenior()));
+            var ceo = new ChiefExecutiveOfficer("CEO", Seniority.CreateNewSemiSenior());
             // 150 Engineering → 
-
-            var engineer = employees.Take(150).ToList();
-            Debug.Log(employees.Count);
-            Debug.Log(engineer.Count);
-            _makeEngineers(engineer);
-
+            var engineer = _makeEngineers();
             // 25 Artist →       
-            var art = employees.Take(25).ToList();
-            _makeArtist(art);
-
+            var art =_makeArtist();
             // 30 PMs →          
-            var pms = employees.Take(30).ToList();
-            _makePMs(pms);
-
+            var pms = _makePMs();
             // 25 Design →       
-            var design = employees.Take(25).ToList();
-            _makeDesigners(design);
-
+            var design = _makeDesigners();
             // 20 HR →           
-            var hrs = employees.Take(20).ToList();
-            _makeHRs(hrs);
-
-            var output = new List<Employee>(engineer);
-            output.AddRange(art);
-            output.AddRange(pms);
-            output.AddRange(design);
-            output.AddRange(hrs);
-            output.Add(ceo);
-            return output;
+            var hrs = _makeHRs();
+            employees.AddRange(engineer);
+            employees.AddRange(art);
+            employees.AddRange(pms);
+            employees.AddRange(design);
+            employees.AddRange(hrs);
+            employees.Add(ceo);
+            return employees;
         }
 
-        private static void _makeEngineers(List<Employee> employees)
-        {
-            // 150 Engineering →    (50 Seniors,    68 Semi Seniors and 32 Juniors)
-            Debug.Log($"1.makeEng{employees.Count}");
-            employees.GetRange(0, 49)
-                .ForEach(e =>
-                    e.UpdateRole(new Engineer($"Cool EngName {e.GetHashCode()}", Seniority.CreateNewSenior()))
-                );
-            Debug.Log($"2.makeEng{employees.Count}");
-
-            employees.GetRange(49, (68))
-                .ForEach(e =>
-                    e.UpdateRole(new Engineer($"Cool EngName_{e.GetHashCode()}", Seniority.CreateNewSemiSenior()))
-                );
-            Debug.Log($"3.makeEng{employees.Count}");
-
-            employees.GetRange((49 + 68), 32)
-                .ForEach(e =>
-                    e.UpdateRole(new Engineer($"Cool EngName_{e.GetHashCode()}", Seniority.CreateNewJunior()))
-                );
-            Debug.Log($"4.makeEng{employees.Count}");
-
+        private List<Employee> _makeEngineers()
+        {   // 150 Engineering →    (50 Seniors,    68 Semi Seniors and 32 Juniors)
+            var employees = new List<Employee>();
+            for (var i = 0; i < 50; i++)
+                employees.Add(new Engineer($"Cool EngNameS #{i}", Seniority.CreateNewSenior()));
+            for (var i = 0; i < 68; i++)
+                employees.Add(new Engineer($"Cool EngNameSS #{i}", Seniority.CreateNewSemiSenior()));
+            for (var i = 0; i < 32; i++)
+                employees.Add(new Engineer($"Cool EngNameJ #{i}", Seniority.CreateNewJunior()));
+            return employees;
         }   
         
-        private static void _makeArtist(List<Employee> employees)
-        {
-            // 25 Artist →          (5 Seniors and  20 Semi Seniors)
-
-            employees.GetRange(0, 5)
-                .ForEach(e =>
-                    e.UpdateRole(new Engineer($"Cool EngName {e.GetHashCode()}", Seniority.CreateNewSenior()))
-                );
-            employees.GetRange(4, 20)
-                .ForEach(e =>
-                    e.UpdateRole(new Engineer($"Cool EngName_{e.GetHashCode()}", Seniority.CreateNewSemiSenior()))
-                );
+        private  List<Employee> _makeArtist()
+        {   // 25 Artist →          (5 Seniors and  20 Semi Seniors)
+            var employees = new List<Employee>();
+            for (var i = 0; i < 5; i++)
+                employees.Add(new Artist($"Cool ArtisTNameS #{i}", Seniority.CreateNewSenior()));
+            for (var i = 0; i < 20; i++)
+                employees.Add(new Artist($"Cool ArtisTNameSS #{i}", Seniority.CreateNewSemiSenior()));
+            return employees;
         }
 
-        private static void _makePMs(List<Employee> employees)
+        private List<Employee> _makePMs()
         {
             // 30 PMs →             (10 Seniors and 20 Semi Seniors)
-
-            employees.GetRange(0, 10)
-                .ForEach(e =>
-                    e.UpdateRole(new Engineer($"Cool EngName {e.GetHashCode()}", Seniority.CreateNewSenior()))
-                );
-            employees.GetRange(9, 20)
-                .ForEach(e =>
-                    e.UpdateRole(new Engineer($"Cool EngName_{e.GetHashCode()}", Seniority.CreateNewSemiSenior()))
-                );
+            var employees = new List<Employee>();
+            for (var i = 0; i < 10; i++)
+                employees.Add(new ProjectManager($"Cool PMNameS #{i}", Seniority.CreateNewSenior()));
+            for (var i = 0; i < 20; i++)
+                employees.Add(new ProjectManager($"Cool PMNameSS #{i}", Seniority.CreateNewSemiSenior()));
+            return employees;
+            
         }
 
-        private static void _makeDesigners(List<Employee> employees)
-        {
-            // 25 Design →          (10 Seniors and                     15 Juniors)
-
-            employees.GetRange(0, 10)
-                .ForEach(e =>
-                    e.UpdateRole(new Engineer($"Cool EngName {e.GetHashCode()}", Seniority.CreateNewSenior()))
-                );
-
-            employees.GetRange((9), 15)
-                .ForEach(e =>
-                    e.UpdateRole(new Engineer($"Cool EngName_{e.GetHashCode()}", Seniority.CreateNewJunior()))
-                );
+        private List<Employee> _makeDesigners()
+        {   // 25 Design →          (10 Seniors and                     15 Juniors)
+            var employees = new List<Employee>();
+            for (var i = 0; i < 10; i++)
+                employees.Add(new Designer($"Cool DesignerNameS #{i}", Seniority.CreateNewSenior()));
+            for (var i = 0; i < 15; i++)
+                employees.Add(new Designer($"Cool DesignerNameJ #{i}", Seniority.CreateNewJunior()));
+            return employees;
         }
 
-        private static void _makeHRs(List<Employee> employees)
-        {
-        // 20 HR →              (5 Seniors,     2  Semi Seniors   13 Juniors)
-            employees.GetRange(0, 5)
-                .ForEach(e =>
-                    e.UpdateRole(new HumanResource($"Cool HRName_ {e.GetHashCode()}", Seniority.CreateNewSenior()))
-                );
-            employees.GetRange(4, ( 2 ))
-                .ForEach(e =>
-                    e.UpdateRole(new HumanResource($"Cool HRName_{e.GetHashCode()}", Seniority.CreateNewSemiSenior()))
-                );
-            employees.GetRange((4 + 2), 13)
-                .ForEach(e =>
-                    e.UpdateRole(new HumanResource($"Cool HRName_{e.GetHashCode()}", Seniority.CreateNewJunior()))
-                );
+        private List<Employee> _makeHRs()
+        {   // 20 HR →              (5 Seniors,     2  Semi Seniors   13 Juniors)
+            var employees = new List<Employee>();
+            for (var i = 0; i < 5; i++)
+                employees.Add(new HumanResource($"Cool HRS #{i}", Seniority.CreateNewSenior()));
+            for (var i = 0; i < 2; i++)
+                employees.Add(new HumanResource($"Cool HRSS #{i}", Seniority.CreateNewJunior()));
+            for (var i = 0; i < 13; i++)
+                employees.Add(new HumanResource($"Cool HRJ #{i}", Seniority.CreateNewJunior()));
+            return employees;
         }
-
-        private static void _generateFakeEmployee(List<Employee> output, int max)
-        {
-            for (var i = 0; i < max; i++)
-                output.Add(new NoRolAssigned($"Wiki CodeName-#{i}", Seniority.CreateNewJunior()));
-        }
-        
     }
 }
 
