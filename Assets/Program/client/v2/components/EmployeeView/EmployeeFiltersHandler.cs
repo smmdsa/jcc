@@ -1,15 +1,16 @@
-using System;
+using TowerDefense.ScriptableEventsV2.CustomUnityEventComponent;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using TowerDefense.ScriptableEventsV2.ConcreteTypeEvents;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 namespace Program.client.v2.components
 {
     public class EmployeeFiltersHandler : MonoBehaviour
     {
         [SerializeField] private EmployeeScrollViewHandler _employeeScrollView;
+        [SerializeField] private IntEvent employeesCounterEvent;
         [SerializeField] private TMP_Dropdown roleDropdown;
         [SerializeField] private TMP_Dropdown seniorityDropdown;
         private IRoleRepository _roleRepository;
@@ -79,10 +80,13 @@ namespace Program.client.v2.components
 
         private void OnSenioritySelectionChange(int index)=>
             CurrentSenioritySelected = index;
-        
 
-        private void UpdateScrollView(List<Employee> employees)=>
+
+        private void UpdateScrollView(List<Employee> employees)
+        {
             _employeeScrollView.EmployeeToShow(employees);
+            employeesCounterEvent?.Invoke(employees.Count);
+        }
         
 
         private void UpdateScrollView() =>
@@ -92,23 +96,23 @@ namespace Program.client.v2.components
         private List<Employee> GetEmployeesBy(int currentRoleSelected, int currentSenioritySelected)
         {
             var output = new List<Employee>();
-            if (currentRoleSelected != 0 && currentSenioritySelected != 0)
+            var roleLabel = roleDropdown.options[CurrentRoleSelected].text.ToUpper();
+            var seniorityLabel = seniorityDropdown.options[CurrentSenioritySelected].text.ToUpper();
+            if (roleLabel == nameof(CEO))
+                output.Add(_employeeRepositoryComponent.GetAll().First(e => e.GetType().Name.ToUpper() == roleLabel));
+            else if (currentRoleSelected != 0 && currentSenioritySelected != 0)
             {
-                var roleLabel = roleDropdown.options[CurrentRoleSelected].text.ToUpper();
-                var seniorityLabel = seniorityDropdown.options[CurrentSenioritySelected].text.ToUpper();
                 output.AddRange(_employeeRepositoryComponent.GetAll()
                     .Where(e => e.GetType().Name.ToUpper() == roleLabel)
                     .Where(e => e.Seniority.GetType().Name.ToUpper() == seniorityLabel).ToList());
             }
             else if (currentRoleSelected != 0)
             {
-                var roleLabel = roleDropdown.options[CurrentRoleSelected].text.ToUpper();
                 output.AddRange(_employeeRepositoryComponent.GetAll()
                     .Where(e => e.GetType().Name.ToUpper() == roleLabel).ToList());
             }
             else if (currentSenioritySelected != 0)
             {
-                var seniorityLabel = seniorityDropdown.options[CurrentSenioritySelected].text.ToUpper();
                 output.AddRange(_employeeRepositoryComponent.GetAll()
                     .Where(e => e.Seniority.GetType().Name.ToUpper() == seniorityLabel).ToList());
             }
