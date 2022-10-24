@@ -37,7 +37,6 @@ public class EmployeeRepository
     public void RequestForAllTheEmployee_GetATotalOf251Employees(int expectedSalary)
     {
         var all = _employeeRepository.GetAll();
-        all[0].CalculateIncrement();
         Assert.AreEqual( expectedSalary, all.Count);
     }
 

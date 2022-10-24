@@ -34,13 +34,6 @@ namespace Program.client
             var calcBaseSalary = new SalaryCalculator();
             Salary = calcBaseSalary.Calculate(this);
         }
-
-        public void CalculateIncrement()
-        {
-            Role.CalculateIncrement();
-        }
-
-        
     }
 
 }
