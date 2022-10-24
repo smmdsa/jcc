@@ -2,13 +2,13 @@ namespace Program.client
 {
     public class Junior : Seniority
     {
-        public Junior(int seniorityMultiplier)
+        internal Junior(float seniorityMultiplier)
         {
+            seniorityLabel = GetType().Name;
+            shortSeniorityLabel = "Jr.";
+
             SeniorityMultiplier = seniorityMultiplier;
         }
-        public Junior()
-        {
-            SeniorityMultiplier = 1;
-        }
+
     }
 }

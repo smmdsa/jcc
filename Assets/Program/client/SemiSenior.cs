@@ -2,14 +2,14 @@ namespace Program.client
 {
     public class SemiSenior : Seniority
     {
-        public SemiSenior(int seniorityMultiplier)
+        internal SemiSenior(float seniorityMultiplier)
         {
+            seniorityLabel = GetType().Name;
+            shortSeniorityLabel = "Ssr.";
+
             SeniorityMultiplier = seniorityMultiplier;
         }
-        public SemiSenior()
-        {
-            SeniorityMultiplier = 2;
-        }
+
         
 
     }

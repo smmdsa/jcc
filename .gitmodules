@@ -1,0 +1,3 @@
+[submodule "Assets/Program/Utils/ScriptableEventsModule/ScriptableEventsSystem"]
+	path = Assets/Program/Utils/ScriptableEventsModule/ScriptableEventsSystem
+	url = git@github.com:BinaryBricklayer/ScriptableEventsSystem.git

@@ -4,13 +4,14 @@ namespace Program.client
 {
     class program
     {
+        private IEmployeeRepository employees; 
         private void Foo()
         {
-            var engineer = new  Engineer("Cool Name", new SemiSenior());
+            employees = new EmployeeFromFakeDatabase();
 
-            //todo make a new service to allow us update more easy the role and seniority
-            engineer.UpdateRole( new Artist(engineer.Name, new Junior()) );
-            engineer.UpdateSeniority(new Senior());
+            var all = employees.GetAll();
+            var allEng = employees.GetAll<Engineer>(null);
+            var allSeniorArts = employees.GetAllEmployeeBySeniority<Artist,Senior>(null, null);
 
         }
     }

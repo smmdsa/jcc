@@ -1,45 +1,48 @@
 
+using System;
+
 namespace Program.client
 {
     public abstract class Employee : IEmployee
     {
         public string Name { get; private set; }
-        public IRole Role => _role;
-        private IRole _role;
-        public Seniority Seniority => _seniority ??= new Junior();
+        public IRole Role { get; private set; }
+
+        public Seniority Seniority => _seniority ??=  Seniority.CreateNewJunior(1);
         private Seniority _seniority { get;  set; }
 
-        public Salary Salary => _salary ??= new Salary(-1);
-        public  Salary _salary { get; internal set; }
+        public Salary Salary  { get; private set; }
 
-        protected Employee(string name, Seniority seniority)
-        {
+        protected Employee(string name) =>
             Name = name;
-            _seniority = seniority;
-        }
+        protected Employee(string name, Seniority s) =>
+            Name = name;
 
-        
-        internal void UpdateName( string value ) =>
+        public void UpdateName( string value ) =>
             Name = value;
         
-        internal void UpdateRole(IRole value)
-        { 
-            _role = value;
-        }
+        public void UpdateRole(IRole value) =>
+            Role = value;
+        public void UpdateSalary(Salary value) =>
+            Salary = value;
 
-        internal void UpdateSeniority(Seniority value)
-        {
+        public void UpdateSeniority(Seniority value) => 
             _seniority = value;
-        }
-        internal void CalcSalary()
+        
+        internal void CalcInitialSalary()
         {
             var calcBaseSalary = new SalaryCalculator();
-            _salary = calcBaseSalary.Calculate(this);
+            Salary = calcBaseSalary.Calculate(this);
         }
+
+        public void CalculateIncrement()
+        {
+            Role.CalculateIncrement();
+        }
+
         
     }
 
-    
 }
 // You are working for a multinational company that has 251 employees around the globe.
 // In order to speed up the process of salary increments,
