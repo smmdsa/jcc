@@ -1,4 +1,6 @@
 
+using System;
+
 namespace Program.client
 {
     public abstract class Employee : IEmployee
@@ -32,6 +34,13 @@ namespace Program.client
             var calcBaseSalary = new SalaryCalculator();
             Salary = calcBaseSalary.Calculate(this);
         }
+
+        public void CalculateIncrement()
+        {
+            Role.CalculateIncrement();
+        }
+
+        
     }
 
 }

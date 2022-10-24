@@ -5,6 +5,7 @@ namespace Program.client
         internal SemiSenior(float seniorityMultiplier)
         {
             seniorityLabel = GetType().Name;
+            shortSeniorityLabel = "Ssr.";
 
             SeniorityMultiplier = seniorityMultiplier;
         }

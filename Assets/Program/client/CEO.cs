@@ -1,8 +1,8 @@
 namespace Program.client
 {
-    public class ChiefExecutiveOfficer : Employee, IRole
+    public class CEO : Employee, IRole
     {
-        public ChiefExecutiveOfficer(string name, Seniority seniority) : base(name)
+        public CEO(string name, Seniority seniority) : base(name)
 
         {
             UpdateSalary(new Salary(BaseSalaryRepository.CEO_BASE_SALARY));
@@ -13,5 +13,6 @@ namespace Program.client
 
         public float BaseSalary() => Salary.BaseSalary;
         public float CurrentSalary() => Salary.CurrentSalary;
+        public void CalculateIncrement() => this.CalculateEmployeeIncrement();
     }
 }

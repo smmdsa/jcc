@@ -45,7 +45,7 @@ public class SalaryIncrementByRoleAndSeniority
     [TestCase(40000)]
     public void CallTheExtensionMethodToCalculateTheSalaryIncrementBasedOnRoleAndSeniority_GetTheNewSalaryForCeo(float expectedSalary)
     {
-        var employee = new ChiefExecutiveOfficer("name", Seniority.CreateNewSenior());
+        var employee = new CEO("name", Seniority.CreateNewSenior());
         employee.CalculateEmployeeIncrement();
         Assert.AreEqual( expectedSalary, (int)employee.Salary.CurrentSalary,
             $"Current {employee.Seniority.SeniorityLabel} had a Current Salary of {employee.Salary.CurrentSalary}");
@@ -53,7 +53,7 @@ public class SalaryIncrementByRoleAndSeniority
     [TestCase(80000)]
     public void CallTheExtensionMethodToCalculateTheSalaryIncrementBasedOnRoleAndSeniorityTwoIncrementsTimes_GetTheNewSalaryForCeo(float expectedSalary)
     {
-        var employee = new ChiefExecutiveOfficer("name", Seniority.CreateNewSenior());
+        var employee = new CEO("name", Seniority.CreateNewSenior());
         employee.CalculateEmployeeIncrement();
         employee.CalculateEmployeeIncrement();
         Assert.AreEqual( expectedSalary, (int)employee.Salary.CurrentSalary,

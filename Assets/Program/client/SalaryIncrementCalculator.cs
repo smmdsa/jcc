@@ -6,22 +6,26 @@ namespace Program.client
 {
     public static class EmployeeIncrementExtension 
     {
-        public static void CalculateEmployeeIncrement( this ChiefExecutiveOfficer employee) 
+        public static void CalculateEmployeeIncrement( this CEO employee) 
         {
             var ns = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * 2 );
             employee.UpdateSalary(ns);
         }
         public static void CalculateEmployeeIncrement( this Engineer employee)
         {
-            var seniority = employee.Seniority.GetType();
+            var seniority = employee.Seniority.GetType().GetHashCode();
             var pesi = new PercentEngineerSalaryIncrementer();
+            foreach (var modifierKey in pesi.PercentModifier.Keys)
+            {
+                Debug.Log(modifierKey);
+            }
             var percent = 1 + (pesi.PercentModifier[seniority] / 100);
             var ns = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * percent );
             employee.UpdateSalary(ns);
         }
         public static void CalculateEmployeeIncrement( this ProjectManager employee)
         {
-            var seniority = employee.Seniority.GetType();
+            var seniority = employee.Seniority.GetType().GetHashCode();
             var ppmsi = new PercentProjectManagerSalaryIncrementer();
             var percent = 1 + (ppmsi.PercentModifier[seniority] / 100);
             var ns = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * percent );
@@ -29,7 +33,7 @@ namespace Program.client
         }
         public static void CalculateEmployeeIncrement( this HumanResource employee)
         {
-            var seniority = employee.Seniority.GetType();
+            var seniority = employee.Seniority.GetType().GetHashCode();
             var phrsi = new PercentHumanResourceSalaryIncrementer();
             var percent = 1 + (phrsi.PercentModifier[seniority] / 100);
             var ns = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * percent );
@@ -37,7 +41,7 @@ namespace Program.client
         }
         public static void CalculateEmployeeIncrement( this Artist employee)
         {
-            var seniority = employee.Seniority.GetType();
+            var seniority = employee.Seniority.GetType().GetHashCode();
             var pasi = new PercentArtistSalaryIncrementer();
             var percent = 1 + (pasi.PercentModifier[seniority] / 100);
             var ns = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * percent );
@@ -45,7 +49,7 @@ namespace Program.client
         }
         public static void CalculateEmployeeIncrement( this Designer employee)
         {
-            var seniority = employee.Seniority.GetType();
+            var seniority = employee.Seniority.GetType().GetHashCode();
             var pdsi = new PercentDesignSalaryIncrementer();
             var percent = 1 + (pdsi.PercentModifier[seniority] / 100);
             var ns = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * percent );
@@ -55,7 +59,7 @@ namespace Program.client
 
     public interface IPercentSalaryIncrementer
     {
-        public Dictionary<Type, float> PercentModifier { get; }
+        public Dictionary<int, float> PercentModifier { get; }
     }
     public class PercentEngineerSalaryIncrementer : IPercentSalaryIncrementer
     {
@@ -64,15 +68,15 @@ namespace Program.client
         private float SemiSeniorModifier { get; }= 7f;
         private float SeniorModifier { get; }= 10f;
 
-        public Dictionary<Type, float> PercentModifier => _percentModifier ??= Initialize();
-        private Dictionary<Type, float> _percentModifier { get; set; }
-        private Dictionary<Type, float> Initialize()
+        public Dictionary<int, float> PercentModifier => _percentModifier ??= Initialize();
+        private Dictionary<int, float> _percentModifier { get; set; }
+        private Dictionary<int, float> Initialize()
         {
-            var pm = new Dictionary<Type, float>()
+            var pm = new Dictionary<int, float>()
             {
-                { typeof(Junior), JuniorModifier },
-                { typeof(SemiSenior), SemiSeniorModifier },
-                { typeof(Seniority), SeniorModifier }
+                { typeof(Junior).GetHashCode(), JuniorModifier },
+                { typeof(SemiSenior).GetHashCode(), SemiSeniorModifier },
+                { typeof(Senior).GetHashCode(), SeniorModifier }
             };
             return pm;
         }
@@ -84,14 +88,14 @@ namespace Program.client
         public float SemiSeniorModifier { get; }= 5f;
         public float SeniorModifier { get; }= 10f;
         
-        public Dictionary<Type, float> PercentModifier => _percentModifier ??= Initialize();
-        private Dictionary<Type, float> _percentModifier { get; set; }
-        private Dictionary<Type, float> Initialize()
+        public Dictionary<int, float> PercentModifier => _percentModifier ??= Initialize();
+        private Dictionary<int, float> _percentModifier { get; set; }
+        private Dictionary<int, float> Initialize()
         {
-            var pm = new Dictionary<Type, float>()
+            var pm = new Dictionary<int, float>()
             {
-                { typeof(SemiSenior), SemiSeniorModifier },
-                { typeof(Seniority), SeniorModifier }
+                { typeof(SemiSenior).GetHashCode(), SemiSeniorModifier },
+                { typeof(Senior).GetHashCode(), SeniorModifier }
             };
             return pm;
         }
@@ -102,14 +106,14 @@ namespace Program.client
         public float JuniorModifier { get; } = 0f;
         public float SemiSeniorModifier { get; }= 0.5f;
         public float SeniorModifier { get; }= 5f;
-        public Dictionary<Type, float> PercentModifier => _percentModifier ??= Initialize();
-        private Dictionary<Type, float> _percentModifier { get; set; }
-        private Dictionary<Type, float> Initialize()
+        public Dictionary<int, float> PercentModifier => _percentModifier ??= Initialize();
+        private Dictionary<int, float> _percentModifier { get; set; }
+        private Dictionary<int, float> Initialize()
         {
-            var pm = new Dictionary<Type, float>()
+            var pm = new Dictionary<int, float>()
             {
-                { typeof(SemiSenior), SemiSeniorModifier },
-                { typeof(Seniority), SeniorModifier }
+                { typeof(SemiSenior).GetHashCode(), SemiSeniorModifier },
+                { typeof(Senior).GetHashCode(), SeniorModifier }
             };
             return pm;
         }
@@ -120,14 +124,14 @@ namespace Program.client
         public float JuniorModifier { get; } = 0f;
         public float SemiSeniorModifier { get; }= 2.5f;
         public float SeniorModifier { get; }= 5f;
-        public Dictionary<Type, float> PercentModifier => _percentModifier ??= Initialize();
-        private Dictionary<Type, float> _percentModifier { get; set; }
-        private Dictionary<Type, float> Initialize()
+        public Dictionary<int, float> PercentModifier => _percentModifier ??= Initialize();
+        private Dictionary<int, float> _percentModifier { get; set; }
+        private Dictionary<int, float> Initialize()
         {
-            var pm = new Dictionary<Type, float>()
+            var pm = new Dictionary<int, float>()
             {
-                { typeof(SemiSenior), SemiSeniorModifier },
-                { typeof(Seniority), SeniorModifier }
+                { typeof(SemiSenior).GetHashCode(), SemiSeniorModifier },
+                { typeof(Senior).GetHashCode(), SeniorModifier }
             };
             return pm;
         }
@@ -138,14 +142,14 @@ namespace Program.client
         public float JuniorModifier { get; } = 4f;
         public float SemiSeniorModifier { get; }= 0f;
         public float SeniorModifier { get; }= 7f;
-        public Dictionary<Type, float> PercentModifier => _percentModifier ??= Initialize();
-        private Dictionary<Type, float> _percentModifier { get; set; }
-        private Dictionary<Type, float> Initialize()
+        public Dictionary<int, float> PercentModifier => _percentModifier ??= Initialize();
+        private Dictionary<int, float> _percentModifier { get; set; }
+        private Dictionary<int, float> Initialize()
         {
-            var pm = new Dictionary<Type, float>()
+            var pm = new Dictionary<int, float>()
             {
-                { typeof(SemiSenior), SemiSeniorModifier },
-                { typeof(Senior), SeniorModifier }
+                { typeof(SemiSenior).GetHashCode(), SemiSeniorModifier },
+                { typeof(Senior).GetHashCode(), SeniorModifier }
             };
             return pm;
         }

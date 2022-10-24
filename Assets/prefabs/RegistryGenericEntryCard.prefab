@@ -527,7 +527,7 @@ GameObject:
   - component: {fileID: 5157926328232865578}
   - component: {fileID: 5241632827160121366}
   m_Layer: 5
-  m_Name: RoleViewCard
+  m_Name: RegistryGenericEntryCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

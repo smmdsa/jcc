@@ -2,7 +2,8 @@
     "name": "client",
     "rootNamespace": "",
     "references": [
-        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:f4a2e4807c0d11a4496385019256461f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

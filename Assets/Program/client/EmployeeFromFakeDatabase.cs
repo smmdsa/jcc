@@ -9,7 +9,11 @@ namespace Program.client
     {
         private List<Employee> Employees => _employees ??= _getEmployees();
         private List<Employee> _employees ;
-        
+
+        public EmployeeFromFakeDatabase()
+        {
+            _getEmployees();
+        }
         public List<Employee> GetAll()=>Employees;
         
         public List<Employee> GetAll<T>( T em ) 
@@ -35,7 +39,7 @@ namespace Program.client
         {
             var employees = new List<Employee>();
             // 1 Ceo 
-            var ceo = new ChiefExecutiveOfficer("CEO", Seniority.CreateNewSemiSenior());
+            var ceo = new CEO("CEO", Seniority.CreateNewSemiSenior());
             // 150 Engineering → 
             var engineer = _makeEngineers();
             // 25 Artist →       

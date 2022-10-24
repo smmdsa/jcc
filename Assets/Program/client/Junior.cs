@@ -5,6 +5,7 @@ namespace Program.client
         internal Junior(float seniorityMultiplier)
         {
             seniorityLabel = GetType().Name;
+            shortSeniorityLabel = "Jr.";
 
             SeniorityMultiplier = seniorityMultiplier;
         }

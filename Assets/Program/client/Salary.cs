@@ -1,6 +1,11 @@
+
 namespace Program.client
 {
-    public class Salary
+    interface ICloneable<T>
+    {
+        T Clone();
+    }
+    public class Salary : ICloneable<Salary>
     {
         public float BaseSalary => _baseSalary;
         private float _baseSalary;
@@ -22,5 +27,8 @@ namespace Program.client
             _baseSalary = 0;
 
         }
+
+        public Salary Clone()=> new Salary(this._baseSalary, this._currentSalary);
+        
     }
 }

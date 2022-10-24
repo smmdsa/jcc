@@ -6,14 +6,16 @@ namespace Program.client
 {
     public abstract class Seniority
     {
-        private float _seniorMultiplier;
-        internal string seniorityLabel;
         public float SeniorityMultiplier
         {
             get => _seniorMultiplier;
             set => _seniorMultiplier = value;
         }
+        private float _seniorMultiplier;
         public string SeniorityLabel => seniorityLabel;
+        protected string seniorityLabel;
+        public string ShortSeniorityLabel => shortSeniorityLabel;
+        protected string shortSeniorityLabel;
 
         public static Seniority CreateNewJunior(float multiplier=1)=>  new Junior(multiplier);
         public static Seniority CreateNewSemiSenior(float multiplier=2)=>  new SemiSenior(multiplier);
@@ -44,7 +46,7 @@ namespace Program.client
             RoleModifier.Add(typeof(HumanResource), new HumanResourceSeniorityModifier());
             RoleModifier.Add(typeof(Designer), new DesignerSeniorityModifier());
             RoleModifier.Add(typeof(ProjectManager), new ProjectManagerSeniorityModifier());
-            RoleModifier.Add(typeof(ChiefExecutiveOfficer), new ChiefExecutiveOfficerSeniorityModifier());
+            RoleModifier.Add(typeof(CEO), new ChiefExecutiveOfficerSeniorityModifier());
         }
         public static Seniority CreateSeniorityFor<TR, TS>(TR role, TS seniority) where TR : IRole where TS : Seniority
         {

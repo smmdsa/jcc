@@ -37,14 +37,14 @@ public class EmployeeRepository
     public void RequestForAllTheEmployee_GetATotalOf251Employees(int expectedSalary)
     {
         var all = _employeeRepository.GetAll();
-        
+        all[0].CalculateIncrement();
         Assert.AreEqual( expectedSalary, all.Count);
     }
 
     [TestCase(1)]
     public void RequestForAllTheCEOEmployee_GetATotalOf150Employees(int expectedSalary)
     {
-        var all = _employeeRepository.GetAll<ChiefExecutiveOfficer>(null);
+        var all = _employeeRepository.GetAll<CEO>(null);
         Assert.AreEqual( expectedSalary, all.Count);
     }
     [TestCase(150)]

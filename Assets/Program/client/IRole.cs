@@ -5,5 +5,6 @@ namespace Program.client
         float BaseSalary();
         float CurrentSalary();
         void UpdateSalary(Salary salary);
+        void CalculateIncrement();
     }
 }
