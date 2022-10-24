@@ -29,7 +29,6 @@ public class EmployeeScrollViewHandler : MonoBehaviour
 
     private void UpdateViewList(List<Employee> employees)
     {
-        
         //load all the stuff
         var rows = employees.Count / 5;
         var _Y = 200 * rows;
@@ -39,7 +38,6 @@ public class EmployeeScrollViewHandler : MonoBehaviour
             StartFromScratch(employees);
         else
             ReusePrevCards(employees);
-        //reset the scrollbar value
         scrollbar.value = 1;
     }
 
