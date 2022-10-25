@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Program.client;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,10 +9,9 @@ public class EmployeeScrollViewHandler : MonoBehaviour
     [SerializeField] private RectTransform cardsContainer;
     [SerializeField] private Scrollbar scrollbar;
 
-    private Dictionary<int, EmployeeCardComponent> EmployeeCardComponents =>
-        _employeeCardComponents ??= new Dictionary<int, EmployeeCardComponent>();
-    private Dictionary<int, EmployeeCardComponent> _employeeCardComponents;
-
+    private List< EmployeeCardComponent> EmployeeCardComponents =>
+        _employeeCardComponents ??= new List< EmployeeCardComponent>();
+    private List< EmployeeCardComponent> _employeeCardComponents;
     private List<Employee> EmployeesToShow
     {
         get => _employeesToShow ??= new List<Employee>();
@@ -30,17 +28,29 @@ public class EmployeeScrollViewHandler : MonoBehaviour
     private void UpdateViewList(List<Employee> employees)
     {
         //load all the stuff
-        var rows = employees.Count / 5;
-        var _Y = 200 * rows;
-        var _X = (220 * 5);
-        cardsContainer.sizeDelta = new Vector2(_X, _Y);
+        DefineRectContainerFor(employees);
+        LoadEmployeesCards(employees);
+        ResetScrollbarPosition();
+    }
+
+    private void LoadEmployeesCards(List<Employee> employees)
+    {
         if (EmployeeCardComponents.Count == 0)
             StartFromScratch(employees);
         else
             ReusePrevCards(employees);
-        scrollbar.value = 1;
     }
-
+    private void ResetScrollbarPosition() =>
+        scrollbar.value = 1;
+    
+    private void DefineRectContainerFor(List<Employee> employees)
+    {
+        var rows = employees.Count / 5;
+        var _Y = 200 * rows;
+        var _X = (220 * 5);
+        cardsContainer.sizeDelta = new Vector2(_X, _Y);
+    }
+    
     private void ReusePrevCards(List<Employee> employees)
     {
         for (var i = 0; i < EmployeeCardComponents.Count; i++)
@@ -61,7 +71,7 @@ public class EmployeeScrollViewHandler : MonoBehaviour
         {
             var nC = Instantiate(employeeCard, cardsContainer.transform);
             nC.InitializeCard(new EmployeeDataCard(employee));
-            EmployeeCardComponents.Add(EmployeeCardComponents.Count, nC);
+            EmployeeCardComponents.Add( nC);
         }
     }
 }
