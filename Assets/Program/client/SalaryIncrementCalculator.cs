@@ -1,5 +1,3 @@
-using Codice.CM.SEIDInfo;
-
 namespace Program.client
 {
     public static class EmployeeIncrementExtension 
@@ -11,10 +9,10 @@ namespace Program.client
         }
 
         private static IPercentSalaryIncrementerRepository _salaryIncrementerRepository;
-        public static void CalculateEmployeeIncrementV2<T>(this T employee) where T : Employee
+        public static void CalculateEmployeeIncrementV2<TE>(this TE employee) where TE : Employee
         {
             var seniority = employee.Seniority.GetType().GetHashCode();
-            _salaryIncrementerRepository = new SalaryIncrementer<T>() ;
+            _salaryIncrementerRepository = new SalaryIncrementer<TE>() ;
             var incrementer = _salaryIncrementerRepository.SelectSalaryIncrementer();
             var percent = 1 + (incrementer.PercentModifier[seniority] / 100);
             var newsSalary = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * percent );
