@@ -39,7 +39,7 @@ namespace Program.client
         {
             var employees = new List<Employee>();
             // 1 Ceo 
-            var ceo = new CEO("CEO", Seniority.CreateNewSemiSenior());
+            var ceo = new CEO("CEO");
             // 150 Engineering → 
             var engineer = _makeEngineers();
             // 25 Artist →       

@@ -14,6 +14,6 @@ namespace Program.client
         
         public float BaseSalary() => Salary.BaseSalary;
         public float CurrentSalary() => Salary.CurrentSalary;
-        public void CalculateIncrement() => this.CalculateEmployeeIncrement();
+        public void CalculateIncrement() => this.CalculateEmployeeIncrementV2();
     }
 }

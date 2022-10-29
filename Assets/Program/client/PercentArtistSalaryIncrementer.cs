@@ -2,6 +2,21 @@ using System.Collections.Generic;
 
 namespace Program.client
 {
+    public class PercentCEOSalaryIncrementer : IPercentSalaryIncrementer
+    {
+        // CEO →         (%100)
+        private float SeniorModifier { get; }= 100f;
+        public Dictionary<int, float> PercentModifier => _percentModifier ??= Initialize();
+        private Dictionary<int, float> _percentModifier { get; set; }
+        private Dictionary<int, float> Initialize()
+        {
+            var output = new Dictionary<int, float>()
+            {
+                { typeof(Senior).GetHashCode(), SeniorModifier }
+            };
+            return output;
+        }
+    }
     public class PercentArtistSalaryIncrementer : IPercentSalaryIncrementer
     {
         // Artist →         (5% Seniors and 2.5% Semi Seniors)
