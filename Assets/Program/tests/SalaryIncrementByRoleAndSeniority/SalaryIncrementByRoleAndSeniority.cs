@@ -37,15 +37,32 @@ public class SalaryIncrementByRoleAndSeniority
     public void CallTheExtensionMethodToCalculateTheSalaryIncrementBasedOnRoleAndSeniority_GetTheNewSalary(float expectedSalary)
     {
         var designer = new Designer("name", Seniority.CreateNewSemiSenior());
-        designer.CalculateEmployeeIncrement();
+        designer.CalculateEmployeeIncrementV2();
         Assert.AreEqual( expectedSalary, (int)designer.Salary.CurrentSalary,
             $"Current {designer.Seniority.SeniorityLabel} had a Current Salary of {designer.Salary.CurrentSalary} and base salary of {designer.Salary.BaseSalary}");
     }
-    
+    [TestCase(0)]
+    public void CallTheExtensionMethodToCalculateTheSalaryIncrementBasedOnRoleAndSeniority_GetTheNewSalaryForDesignerSenior(float expectedSalary)
+    {
+        var designer = new Designer("name", Seniority.CreateNewSenior());
+        designer.CalculateEmployeeIncrementV2();
+        Assert.AreNotEqual( expectedSalary, (int)designer.Salary.CurrentSalary,
+            $"Current {designer.Seniority.SeniorityLabel} had a Current Salary of {designer.Salary.CurrentSalary} and base salary of {designer.Salary.BaseSalary}");
+        var art = new Artist("name", Seniority.CreateNewSenior());
+        designer.CalculateEmployeeIncrementV2();
+        Assert.AreNotEqual( expectedSalary, (int)art.Salary.CurrentSalary,
+            $"Current {art.Seniority.SeniorityLabel} had a Current Salary of {art.Salary.CurrentSalary} and base salary of {art.Salary.BaseSalary}");
+
+        var en = new Designer("name", Seniority.CreateNewSenior());
+        designer.CalculateEmployeeIncrementV2();
+        Assert.AreNotEqual( expectedSalary, (int)en.Salary.CurrentSalary,
+            $"Current {en.Seniority.SeniorityLabel} had a Current Salary of {en.Salary.CurrentSalary} and base salary of {en.Salary.BaseSalary}");
+
+    }
     [TestCase(40000)]
     public void CallTheExtensionMethodToCalculateTheSalaryIncrementBasedOnRoleAndSeniority_GetTheNewSalaryForCeo(float expectedSalary)
     {
-        var employee = new CEO("name", Seniority.CreateNewSenior());
+        var employee = new CEO("name");
         employee.CalculateEmployeeIncrement();
         Assert.AreEqual( expectedSalary, (int)employee.Salary.CurrentSalary,
             $"Current {employee.Seniority.SeniorityLabel} had a Current Salary of {employee.Salary.CurrentSalary}");
@@ -53,7 +70,7 @@ public class SalaryIncrementByRoleAndSeniority
     [TestCase(80000)]
     public void CallTheExtensionMethodToCalculateTheSalaryIncrementBasedOnRoleAndSeniorityTwoIncrementsTimes_GetTheNewSalaryForCeo(float expectedSalary)
     {
-        var employee = new CEO("name", Seniority.CreateNewSenior());
+        var employee = new CEO("name");
         employee.CalculateEmployeeIncrement();
         employee.CalculateEmployeeIncrement();
         Assert.AreEqual( expectedSalary, (int)employee.Salary.CurrentSalary,

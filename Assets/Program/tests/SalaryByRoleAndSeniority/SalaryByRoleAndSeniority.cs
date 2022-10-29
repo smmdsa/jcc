@@ -124,7 +124,7 @@ public class SalaryByRoleAndSeniority
     [TestCase(20000)]
     public void CreateANewCEOEmployee_GetTheInitialSalaryByRolAndSeniority(float expectedSalary)
     {
-        var employee = new CEO("name", Seniority.CreateNewSenior());
+        var employee = new CEO("name");
         
         Assert.AreEqual( expectedSalary, (int)employee.Salary.CurrentSalary,
             $"Current {employee.Seniority.SeniorityLabel} had a Current Salary of {employee.Salary.CurrentSalary}");

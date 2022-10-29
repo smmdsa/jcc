@@ -1,3 +1,5 @@
+using Codice.CM.SEIDInfo;
+
 namespace Program.client
 {
     public static class EmployeeIncrementExtension 
@@ -7,45 +9,16 @@ namespace Program.client
             var ns = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * 2 );
             employee.UpdateSalary(ns);
         }
-        public static void CalculateEmployeeIncrement( this Engineer employee)
+
+        private static IPercentSalaryIncrementerRepository _salaryIncrementerRepository;
+        public static void CalculateEmployeeIncrementV2<T>(this T employee) where T : Employee
         {
             var seniority = employee.Seniority.GetType().GetHashCode();
-            var pesi = new PercentEngineerSalaryIncrementer();
-            var percent = 1 + (pesi.PercentModifier[seniority] / 100);
-            var ns = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * percent );
-            employee.UpdateSalary(ns);
-        }
-        public static void CalculateEmployeeIncrement( this ProjectManager employee)
-        {
-            var seniority = employee.Seniority.GetType().GetHashCode();
-            var ppmsi = new PercentProjectManagerSalaryIncrementer();
-            var percent = 1 + (ppmsi.PercentModifier[seniority] / 100);
-            var ns = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * percent );
-            employee.UpdateSalary(ns);
-        }
-        public static void CalculateEmployeeIncrement( this HumanResource employee)
-        {
-            var seniority = employee.Seniority.GetType().GetHashCode();
-            var phrsi = new PercentHumanResourceSalaryIncrementer();
-            var percent = 1 + (phrsi.PercentModifier[seniority] / 100);
-            var ns = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * percent );
-            employee.UpdateSalary(ns);
-        }
-        public static void CalculateEmployeeIncrement( this Artist employee)
-        {
-            var seniority = employee.Seniority.GetType().GetHashCode();
-            var pasi = new PercentArtistSalaryIncrementer();
-            var percent = 1 + (pasi.PercentModifier[seniority] / 100);
-            var ns = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * percent );
-            employee.UpdateSalary(ns);
-        }
-        public static void CalculateEmployeeIncrement( this Designer employee)
-        {
-            var seniority = employee.Seniority.GetType().GetHashCode();
-            var pdsi = new PercentDesignSalaryIncrementer();
-            var percent = 1 + (pdsi.PercentModifier[seniority] / 100);
-            var ns = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * percent );
-            employee.UpdateSalary(ns);
+            _salaryIncrementerRepository = new SalaryIncrementer<T>() ;
+            var incrementer = _salaryIncrementerRepository.SelectSalaryIncrementer();
+            var percent = 1 + (incrementer.PercentModifier[seniority] / 100);
+            var newsSalary = new Salary( employee.Salary.BaseSalary,employee.Salary.CurrentSalary * percent );
+            employee.UpdateSalary(newsSalary);
         }
     }
 }
